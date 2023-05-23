@@ -1,30 +1,37 @@
-let numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+let numeroAleatorio = 0;
 let intentos = 0;
 let seguirJugando = true;
 let maximoIntentos = 0;
+let dificultad = 0;
+
+// Solicita al usuario que elija la dificultad y establece el número máximo de intentos y el rango del número aleatorio.
 
 function solicitarDificultad() {
-    let dificultad = prompt("Elige la dificultad:\n1. Fácil (números del 1 al 50)\n2. Media (números del 1 al 100)\n3. Difícil (números del 1 al 200)");
+    dificultad = prompt("Elige la dificultad:\n1. Fácil (números del 1 al 50)\n2. Media (números del 1 al 100)\n3. Difícil (números del 1 al 200)");
 
     switch (dificultad) {
         case "1":
-            numeroAleatorio = Math.floor(Math.random() * 50) + 1;
             maximoIntentos = 6;
+            alert("Has elegido la dificultad Fácil.");
             break;
         case "2":
-            numeroAleatorio = Math.floor(Math.random() * 100) + 1;
             maximoIntentos = 10;
+            alert("Has elegido la dificultad Media.");
             break;
         case "3":
-            numeroAleatorio = Math.floor(Math.random() * 200) + 1;
-            maximoIntentos = 18;
+            maximoIntentos = 15;
+            alert("Has elegido la dificultad Difícil.");
             break;
         default:
             alert("Opción inválida. Seleccionando dificultad media por defecto.");
-            numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+            maximoIntentos = 10;
             break;
     }
+    
+    numeroAleatorio = Math.floor(Math.random() * (dificultad * 100)) + 1;
 }
+
+// Comprueba si el número ingresado por el usuario es igual, mayor o menor que el número aleatorio.
 
 function comprobarNumero(numero) {
     if (numero === numeroAleatorio) {
@@ -36,24 +43,23 @@ function comprobarNumero(numero) {
     }
 }
 
+//Reinicia los valores del juego para poder jugar nuevamente.
+
 function reiniciarJuego() {
     intentos = 0;
-    numeroAleatorio = Math.floor(Math.random() * 100) + 1;
     seguirJugando = true;
 }
 
+//  Inicia el juego de adivinar el número.
+
 function jugarJuego() {
     alert("Bienvenido a nuestro juego de adivinar el número!");
-    alert("Porfavor ingresa el numero correspondiente para seleccionar la dificultad");
-    alert("Luego de ingresar tu nombre tendras 6 intentos para adivinar el numero entre el 1 y 100");
     solicitarDificultad();
     let nombre = prompt("Ingresa tu nombre:");
     alert("Hola, " + nombre + "! Comencemos el juego.🤞🤞");
 
-    
-
-    while (seguirJugando && intentos < 6) {
-        let numeroIngresado = prompt("Ingresa un número entre 1 y 100:");
+    while (seguirJugando && intentos < maximoIntentos) {
+        let numeroIngresado = prompt("Ingresa un número entre 1 y " + (dificultad * 100) + ":");
 
         if (numeroIngresado === null) {
             let confirmacion = confirm("Deseas salir del juego?");
@@ -82,8 +88,8 @@ function jugarJuego() {
                 reiniciarJuego();
                 jugarJuego();
             }
-        } else if (intentos === 6) {
-            alert("Lo siento, " + nombre + ". Has agotado tus 6 intentos. El número era " + numeroAleatorio);
+        } else if (intentos === maximoIntentos) {
+            alert("Lo siento, " + nombre + ". Has agotado tus " + maximoIntentos + " intentos. El número era " + numeroAleatorio);
 
             let reiniciar = confirm("Deseas jugar nuevamente?");
             if (reiniciar) {
